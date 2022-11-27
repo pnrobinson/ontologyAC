@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class ChartApplication extends Application {
+public class OntologyAutocompleteApplication extends Application {
     private ConfigurableApplicationContext applicationContext;
 
     @Override
