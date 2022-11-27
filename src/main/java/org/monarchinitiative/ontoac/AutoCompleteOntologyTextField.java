@@ -23,14 +23,14 @@ public class AutoCompleteOntologyTextField extends TextField {
     /** The maximum mnumber of autocomplete entries to show (default 10). */
     private final int maxEntries;
     /** We pass this to the constructor of {@link #ontologyLabels} to make sure it sorts in a case-insensitive way.*/
-    Comparator<String> caseInsensitiveComparator = Comparator.comparing(String::toLowerCase);
+    final Comparator<String> caseInsensitiveComparator = Comparator.comparing(String::toLowerCase);
     /** The existing autocomplete entries (ontology term labels and synonyms). */
     private final SortedSet<String> ontologyLabels;
     /** Key: an ontology term label or synonym label; value: the corresponding termid. This is used
      * to return the TermId of the selected item rather than a String*/
     private final Map<String, TermId> labelToTermMap;
     /** The popup used to select an entry. */
-    private ContextMenu entriesPopup;
+    private final ContextMenu entriesPopup;
 
 
     public AutoCompleteOntologyTextField() {
@@ -44,33 +44,26 @@ public class AutoCompleteOntologyTextField extends TextField {
         this.labelToTermMap = new HashMap<>();
         ontologyLabels = new TreeSet<>(caseInsensitiveComparator);
         entriesPopup = new ContextMenu();
-        textProperty().addListener(new ChangeListener<String>()
-        {
+        textProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                if (getText().length() == 0)
-                {
+                if (getText().length() == 0) {
                     entriesPopup.hide();
-                } else
-                {
-                    LinkedList<String> searchResult = new LinkedList<>();
-                    searchResult.addAll(ontologyLabels.subSet(getText(), getText() + Character.MAX_VALUE));
-                    if (ontologyLabels.size() > 0)
-                    {
+                } else {
+                    LinkedList<String> searchResult = new LinkedList<>(ontologyLabels.subSet(getText(), getText() + Character.MAX_VALUE));
+                    if (ontologyLabels.size() > 0) {
                         populatePopup(searchResult);
-                        if (!entriesPopup.isShowing())
-                        {
+                        if (!entriesPopup.isShowing()) {
                             entriesPopup.show(AutoCompleteOntologyTextField.this, Side.BOTTOM, 0, 0);
                         }
-                    } else
-                    {
+                    } else {
                         entriesPopup.hide();
                     }
                 }
             }
         });
 
-        focusedProperty().addListener(new ChangeListener<Boolean>() {
+        focusedProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean aBoolean2) {
                 entriesPopup.hide();
@@ -109,8 +102,7 @@ public class AutoCompleteOntologyTextField extends TextField {
             final String result = searchResult.get(i);
             Label entryLabel = new Label(result);
             CustomMenuItem item = new CustomMenuItem(entryLabel, true);
-            item.setOnAction(new EventHandler<ActionEvent>()
-            {
+            item.setOnAction(new EventHandler<>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     setText(result);

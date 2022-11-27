@@ -56,7 +56,7 @@ public class OntologyAutocompleteController {
         if (opt.isPresent()) {
             System.out.printf("Autocompleted Term id: %s\n", opt.get());
         } else {
-            System.out.printf("Unable to get term id: ");
+            System.out.println("Unable to get term id: ");
         }
     }
 }
